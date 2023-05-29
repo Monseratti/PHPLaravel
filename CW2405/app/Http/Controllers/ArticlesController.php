@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticlesController extends Controller
 {
@@ -30,19 +31,23 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
+        $path = null;
+        $file = $request->file("image");
+        if(isset($file)){
+            $path = str_replace("public\\","",Storage::putFile("public\images", $file));
+        }
+
         $article = new Article();
 
         $article->summary = $request->get('summary');
         $article->short_description = $request->get('short_description');
         $article->full_text = $request->get('full_text');
+        $article->image = $path;
         $article->created_at = new DateTime();
         $article->updated_at = new DateTime();
 
-        
-
-
-        // $article->save();
-        // return redirect('articles');
+        $article->save();
+        return redirect('articles');
     }
 
     /**
