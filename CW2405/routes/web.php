@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\UsersController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,4 @@ Route::get('/', function () {
     return view('home');
 });
 Route::resource('/articles',ArticlesController::class);
+Route::resource('/login',UsersController::class);
